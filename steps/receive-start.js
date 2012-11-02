@@ -23,7 +23,7 @@ module.exports = function(parsed,res) {
 		res.twilioEnd("Please put the address you wish to travel to after YES");
 		return true;
 	}
-	if (session != null && parsed.Body.toLowerCase().indexOf("yes ") != 0) {
+	if (session != null && parsed.Body.toLowerCase().indexOf("yes ") != 0 && parsed.Body.toLowerCase().indexOf("again ") != 0) {
 		parseFromAddress(parsed,res,session);
 		return true;
 	}
