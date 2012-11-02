@@ -19,6 +19,10 @@ var parseFromAddress = function(parsed,res,session) {
 
 module.exports = function(parsed,res) {
 	var session = sessions[parsed.From];
+	if (parsed.Body.toLowerCase() == "yes") {
+		res.end("Please put the address you wish to travel to after YES");
+		return;
+	}
 	if (session != null && parsed.Body.toLowerCase().indexOf("yes ") != 0) {
 		parseFromAddress(parsed,res,session);
 		return true;
