@@ -1,0 +1,34 @@
+var s = require("../smssidstore.js");
+var sessions = s.sessions;
+var geocode = require("../geocode.js");
+
+var parseFromAddress = function(parsed,res,session) {
+	var address = parsed.Body;
+	geocode(address, function(data) {
+		var addressDetails = JSON.parse(data).results[0];
+
+		if (!addressDetails) {
+			res.end("Address not recognized. Please try again.");
+		} else {
+			res.end("Starting at " + addressDetails.formatted_address +". If correct, reply with YES followed by your destination address.");
+			session.pendingFrom = addressDetails;
+		}
+		s.persist();
+	})
+}
+
+module.exports = function(parsed,res) {
+	var session = sessions[parsed.From];
+	if (session != null && parsed.Body.toLowerCase().indexOf("yes ") != 0) {
+		parseFromAddress(parsed,res,session);
+		return true;
+	}
+	else if (session != null && session.pendingFrom && parsed.Body.toLowerCase().indexOf("yes ") == 0) {
+		session.from = session.pendingFrom;
+		delete session.pendingFrom;
+		s.persist();
+		console.log("switched to absolute from")
+		return false;
+	}
+	return false;
+}
