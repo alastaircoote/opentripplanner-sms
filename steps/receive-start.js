@@ -27,7 +27,7 @@ module.exports = function(parsed,res) {
 		parseFromAddress(parsed,res,session);
 		return true;
 	}
-	else if (session != null && session.pendingFrom && parsed.Body.toLowerCase().indexOf("yes ") == 0) {
+	else if (session != null && session.pendingFrom && parsed.Body.toLowerCase().indexOf("yes ") == 0 && parsed.Body.toLowerCase().indexOf("again ") == 0) {
 		session.from = session.pendingFrom;
 		delete session.pendingFrom;
 		s.persist();
