@@ -44,7 +44,7 @@ var parseFromAddress = function(parsed,res,session) {
 						numTexts++;
 					}
 				}
-				twilioResponse += "<Sms>" + response + "</Sms></Response>";
+				twilioResponse += "<Sms>(" + (numTexts+1) + ") " + response + "</Sms></Response>";
 				console.log(twilioResponse)
 
 
@@ -58,6 +58,10 @@ var parseFromAddress = function(parsed,res,session) {
 module.exports = function(parsed,res) {
 	var session = sessions[parsed.From];
 	console.log(parsed.From, session)
+	if (parsed.Body.toLowerCase() == "yes") {
+		res.end("Please put the address you wish to travel to after YES");
+		return;
+	}
 	if (session != null && (parsed.Body.toLowerCase().indexOf("yes ") == 0 || parsed.Body.toLowerCase().indexOf("again ") == 0)) {
 		parseFromAddress(parsed,res,session);
 		return true;
