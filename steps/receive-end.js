@@ -6,27 +6,13 @@ var download = require("../download.js");
 var processItin = require("../itin-process.js");
 var querystring = require("querystring")
 
-var doTwilioSend = function(text,parsed) {
-	var toQs = {
-		Body: text,
-		From: parsed.To
-	}
-	var url = "https://api.twilio.com/2010-04-01/Accounts/" + parsed.AccountSid + "/SMS/Messages.json?" + querystring.stringify(toQs);
-	download(url, function(data){
-		console.log(data)
-	})
-}
-
-
 var parseFromAddress = function(parsed,res,session) {
 	var address = parsed.Body.substr(3);
-	console.log(session);
-	console.log(address);
 	geocode(address, function(data) {
 		var addressDetails = JSON.parse(data).results[0];
 
 		if (!addressDetails) {
-			res.end("Address not recognized. Please try again.");
+			res.twilioEnd("Address not recognized. Please try again.");
 		} else {
 
 			var fromLatLng = session.from.geometry.location.lat + "," + session.from.geometry.location.lng;
@@ -37,7 +23,7 @@ var parseFromAddress = function(parsed,res,session) {
 			download(url, function(data){
 				var ret = JSON.parse(data);
 				if (!ret.plan || ret.plan.itineraries.length == 0) {
-					res.end("No route found to " + addressDetails.formatted_address + ". Reply again with YES followed by address to try again.")
+					res.twilioEnd("No route found to " + addressDetails.formatted_address + ". Reply again with YES followed by address to try again.")
 					return;
 				}
 				var itin = ret.plan.itineraries[0];

@@ -13,6 +13,12 @@ var steps = [
 
 http.createServer(function (req, res) {
 	req.formData = [];
+
+	res.twilioEnd = function(msg) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(msg);
+	}
+
 	req.on("data", function(data) {
 		req.formData.push(data.toString());
 		console.log("data")
@@ -26,7 +32,7 @@ http.createServer(function (req, res) {
 			if (parsedResponse == true) break;
 		}
 	});
-	
+	//res.writeHead(200, {'Content-Type': 'text/plain'});
 	
 	res.on("end", function(){
 		console.log("endreq")

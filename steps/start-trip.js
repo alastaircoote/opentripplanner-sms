@@ -5,7 +5,7 @@ var startTripRequest = function(parsed,res) {
 	sessions[parsed.From] = {
 
 	};
-	res.end("What is your starting address?");
+	res.twilioEnd("What is your starting address?");
 	s.persist();
 }
 
