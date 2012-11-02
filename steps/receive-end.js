@@ -44,7 +44,7 @@ var parseFromAddress = function(parsed,res,session) {
 						numTexts++;
 					}
 				}
-				twilioResponse += "<Sms>(" + (numTexts+1) + ") " + response + "</Sms></Response>";
+				twilioResponse += "<Sms>(" + (numTexts) + ") " + response + "</Sms></Response>";
 				console.log(twilioResponse)
 
 
