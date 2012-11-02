@@ -59,7 +59,7 @@ module.exports = function(parsed,res) {
 	var session = sessions[parsed.From];
 	console.log(parsed.From, session)
 	if (parsed.Body.toLowerCase() == "yes") {
-		res.end("Please put the address you wish to travel to after YES");
+		res.twilioEnd("Please put the address you wish to travel to after YES");
 		return true;
 	}
 	if (session != null && (parsed.Body.toLowerCase().indexOf("yes ") == 0 || parsed.Body.toLowerCase().indexOf("again ") == 0)) {
