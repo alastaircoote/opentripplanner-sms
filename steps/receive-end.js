@@ -60,7 +60,7 @@ module.exports = function(parsed,res) {
 	console.log(parsed.From, session)
 	if (parsed.Body.toLowerCase() == "yes") {
 		res.end("Please put the address you wish to travel to after YES");
-		return;
+		return true;
 	}
 	if (session != null && (parsed.Body.toLowerCase().indexOf("yes ") == 0 || parsed.Body.toLowerCase().indexOf("again ") == 0)) {
 		parseFromAddress(parsed,res,session);
