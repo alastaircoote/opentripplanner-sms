@@ -32,14 +32,16 @@ var parseFromAddress = function(parsed,res,session) {
 				steps.push("");
 				steps.push("To try another destination, reply with AGAIN followed by address. To start again, respond with TRIP")
 				
-				var response = "Directions:\n";
+				var response = "Directions to " + addressDetails.formatted_address + ":\n";
 				var twilioResponse = '<?xml version="1.0" encoding="UTF-8" ?><Response>';
+				var numTexts = 1;
 				for(var x = 0;x<steps.length;x++) {
-					if (response.length + steps[x].length < 158) {
+					if (response.length + steps[x].length < 154) {
 						response += steps[x] + "\r\n";
 					} else {
-						twilioResponse += "<Sms>" + response + "</Sms>"
+						twilioResponse += "<Sms>(" + numTexts +") " + response + "</Sms>"
 						response = steps[x] + "\r\n"
+						numTexts++;
 					}
 				}
 				twilioResponse += "<Sms>" + response + "</Sms></Response>";
