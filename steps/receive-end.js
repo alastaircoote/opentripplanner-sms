@@ -7,7 +7,7 @@ var processItin = require("../itin-process.js");
 var querystring = require("querystring")
 
 var parseFromAddress = function(parsed,res,session) {
-	var address = parsed.Body.replace("yes ","").replace("again ","");
+	var address = parsed.Body.toLowerCase().replace("yes ","").replace("again ","");
 	geocode(address, function(data) {
 		var addressDetails = JSON.parse(data).results[0];
 
